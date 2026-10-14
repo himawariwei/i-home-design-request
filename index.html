@@ -246,7 +246,7 @@ button,.btn{min-height:42px}
     <span class="top-spacer"></span>
     <button class="btn" id="exportBtn">⬆ 匯出備份</button>
     <label class="btn" id="importLabel" for="importFile">⬇ 匯入備份</label><input id="importFile" type="file" accept="application/json,.json" hidden="">
-    <span class="sync-status" id="syncStatus">本機測試模式</span>
+    <span class="sync-status" id="syncStatus">本機資料模式</span>
   </div>
 
   <div class="page-tabs" role="tablist">
@@ -519,8 +519,8 @@ button,.btn{min-height:42px}
 
 <script>
 "use strict";
-const KEY="ihome-case-manager-v2-workload-test";
-const CUE_KEY="ihome-cue-manager-v2-workload-test";
+const KEY="ihome-case-manager-v4-github-20261014";
+const CUE_KEY="ihome-cue-manager-v4-github-20261014";
 const WORK_TYPES=["Banner","網頁","簡報","輸出","UIUX","其他"];
 const WORK_UNITS={"Banner":"張","網頁":"頁","簡報":"頁","輸出":"件","UIUX":"畫面","其他":"件"};
 const WORK_COLORS={
@@ -618,15 +618,7 @@ function bindSizeChecks(){document.querySelectorAll("[data-size-id]").forEach(cb
 function addOtherSizeRow(x={}){const row=document.createElement("div");row.className="size-other-row";row.innerHTML=`<input class="size-other-name" placeholder="需求名稱，例如：活動頁KV" value="${esc(x.label||"")}"><input class="size-other-size" placeholder="尺寸，例如：1200x628px" value="${esc(x.size||"")}"><input class="size-other-qty" type="number" min="1" step="1" value="${Math.max(1,Number(x.qty)||1)}"><button type="button" class="btn danger size-other-remove" title="刪除">×</button>`;row.querySelector(".size-other-remove").onclick=()=>row.remove();$("#sizeOtherList").appendChild(row)}
 function collectSizeNeeds(){const arr=[];SIZE_PRESETS.forEach(p=>{const cb=document.querySelector(`[data-size-id="${p.id}"]`),inp=document.querySelector(`[data-size-qty="${p.id}"]`);if(cb&&cb.checked)arr.push({id:p.id,label:p.label,size:"",qty:Math.max(1,Number(inp&&inp.value)||1),custom:false})});document.querySelectorAll(".size-other-row").forEach((row,i)=>{const label=row.querySelector(".size-other-name").value.trim(),size=row.querySelector(".size-other-size").value.trim(),qty=Math.max(1,Number(row.querySelector(".size-other-qty").value)||1);if(label||size)arr.push({id:`custom-${Date.now()}-${i}`,label:label||"其他",size,qty,custom:true})});return arr}
 
-function sample(){return [
- {id:"demo-mia-1005",requester:"Mia",dept:"商品",brief:"2026-10-05",live:"2026-10-08",link:"",status:"done",subject:"bannerx3（uniopen輪播:一元咖啡｜超級購物節｜iPhone18）",updated:"2026-10-08",note:"",workType:"Banner",outputQty:3,needsReview:false,reviewRounds:{}},
- {id:"demo-belle-1005",requester:"Belle",dept:"商品",brief:"2026-10-05",live:"2026-10-08",link:"",status:"done",subject:"bannerx1（uniopen-app Push OP-app Push(超級購物節)）",updated:"2026-10-08",note:"",workType:"Banner",outputQty:1,needsReview:false,reviewRounds:{}},
- {id:"demo-nina-foodomo",requester:"Nina",dept:"營運",brief:"2026-10-05",live:"2026-10-08",link:"",status:"done",subject:"bannerx9（foodomo廣告）",updated:"2026-10-08",note:"",workType:"Banner",outputQty:9,needsReview:false,reviewRounds:{}},
- {id:"demo-nina-leqing",requester:"Nina",dept:"營運",brief:"2026-10-05",live:"2026-10-08",link:"",status:"done",subject:"bannerx9（樂清廣告）",updated:"2026-10-08",note:"",workType:"Banner",outputQty:9,needsReview:false,reviewRounds:{}},
- {id:"demo-nina-foodomo2",requester:"Nina",dept:"營運",brief:"2026-10-08",live:"2026-10-08",link:"",status:"done",subject:"bannerx2（foodomo廣告不同日期和優惠）",updated:"2026-10-08",note:"",workType:"Banner",outputQty:2,needsReview:false,reviewRounds:{}},
- {id:"demo-nina-leqing2",requester:"Nina",dept:"營運",brief:"2026-10-12",live:"2026-10-12",link:"",status:"done",subject:"bannerx3（樂清日期和文字調整）",updated:"2026-10-12",note:"",workType:"Banner",outputQty:3,needsReview:false,reviewRounds:{}},
- {id:"demo-lydia-web",requester:"Lydia",dept:"營運",brief:"2026-10-12",live:"2026-10-16",link:"",status:"working",subject:"html x 10頁（分頁新增最新公告｜手機版優化）",updated:"2026-10-12",note:"",workType:"網頁",outputQty:10,needsReview:false,reviewRounds:{}}
-]}
+function sample(){return [{"id":"demo-mia-1005","requester":"Mia","dept":"商品","brief":"2026-10-05","live":"2026-10-08","link":"","status":"done","subject":"bannerx3（uniopen輪播:一元咖啡｜超級購物節｜iPhone18）","updated":"2026-10-08","note":"","workType":"Banner","outputQty":3,"needsReview":true,"reviewRounds":{"OP":1,"法務":2,"UNIOPEN":0,"統一資訊":0,"咖啡杯":1,"廠商確認":0,"紙本留存":0},"sizeNeeds":[{"id":"uni-home","label":"uniopen(首頁banner1968x1000px)","size":"","qty":3,"custom":false}]},{"id":"demo-belle-1005","requester":"Belle","dept":"商品","brief":"2026-10-05","live":"2026-10-08","link":"","status":"done","subject":"bannerx1（uniopen-app Push OP-app Push(超級購物節)）","updated":"2026-10-08","note":"","workType":"Banner","outputQty":1,"needsReview":true,"reviewRounds":{"OP":0,"法務":1,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[{"id":"uni-push","label":"uniopen(PUSH推播750x750px)","size":"","qty":1,"custom":false}]},{"id":"demo-nina-foodomo","requester":"Nina","dept":"營運","brief":"2026-10-05","live":"2026-10-08","link":"","status":"done","subject":"bannerx9（foodomo廣告）","updated":"2026-10-08","note":"","workType":"Banner","outputQty":9,"needsReview":true,"reviewRounds":{"OP":1,"法務":1,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":1,"紙本留存":0},"sizeNeeds":[]},{"id":"demo-nina-leqing","requester":"Nina","dept":"營運","brief":"2026-10-05","live":"2026-10-08","link":"","status":"done","subject":"bannerx9（樂清廣告）","updated":"2026-10-08","note":"","workType":"Banner","outputQty":9,"needsReview":true,"reviewRounds":{"OP":1,"法務":1,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":1,"紙本留存":0},"sizeNeeds":[]},{"id":"demo-nina-foodomo2","requester":"Nina","dept":"營運","brief":"2026-10-08","live":"2026-10-08","link":"","status":"done","subject":"bannerx2（foodomo廣告不同日期和優惠）","updated":"2026-10-08","note":"","workType":"Banner","outputQty":2,"needsReview":false,"reviewRounds":{"OP":0,"法務":0,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"demo-nina-leqing2","requester":"Nina","dept":"營運","brief":"2026-10-12","live":"2026-10-12","link":"","status":"done","subject":"bannerx3（樂清日期和文字調整）","updated":"2026-10-12","note":"","workType":"Banner","outputQty":3,"needsReview":false,"reviewRounds":{"OP":0,"法務":0,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"demo-lydia-web","requester":"Lydia","dept":"營運","brief":"2026-10-12","live":"2026-10-16","link":"","status":"working","subject":"htmlx10（官網分頁新增最新公告｜優化）","updated":"2026-10-12","note":"","workType":"網頁","outputQty":12,"needsReview":false,"reviewRounds":{"OP":0,"法務":0,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"cw44jo7z","requester":"Nina","dept":"營運","brief":"2026-10-12","live":"2026-10-12","link":"","status":"done","subject":"htmlx6 ( 官網網頁分頁 )","updated":"2026-10-12","note":"","workType":"網頁","outputQty":6,"needsReview":false,"reviewRounds":{"OP":0,"法務":0,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"cxmi27yy","requester":"其他","dept":"營運","brief":"2026-10-01","live":"2026-10-01","link":"","status":"done","subject":"i住家記者會","updated":"2026-10-12","note":"","workType":"其他","outputQty":1,"needsReview":false,"reviewRounds":{"OP":0,"法務":0,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"chgt4egb","requester":"其他","dept":"營運","brief":"2026-09-01","live":"2026-10-02","link":"","status":"done","subject":"紙本案件x9 （ 送審案件成冊交付法務 ）","updated":"2026-10-12","note":"","workType":"其他","outputQty":9,"needsReview":true,"reviewRounds":{"OP":0,"法務":9,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"ct1j78be","requester":"Lydia","dept":"營運","brief":"2026-10-13","live":"2026-10-16","link":"","status":"working","subject":"制定尺寸換廣告規範","updated":"2026-10-13","note":"","workType":"其他","outputQty":1,"needsReview":false,"reviewRounds":{"OP":0,"法務":0,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]},{"id":"cserupdv","requester":"Mia","dept":"商品","brief":"2026-10-14","live":"2026-10-21","link":"","status":"working","subject":"2026.11 寵粉狂歡月","updated":"2026-10-13","note":"","workType":"Banner","outputQty":60,"needsReview":true,"reviewRounds":{"OP":1,"法務":1,"UNIOPEN":0,"統一資訊":0,"咖啡杯":0,"廠商確認":0,"紙本留存":1},"sizeNeeds":[]},{"id":"cvkuamiy","requester":"Nina","dept":"營運","brief":"2026-10-13","live":"2026-10-16","link":"","status":"submit","subject":"20261017_高雄樂齡展咖啡券","updated":"2026-10-14","note":"","workType":"Banner","outputQty":1,"needsReview":true,"reviewRounds":{"OP":0,"法務":1,"UNIOPEN":1,"統一資訊":0,"咖啡杯":1,"廠商確認":0,"紙本留存":0},"sizeNeeds":[]}]}
 let data=[]; let editId=null; let selectedId=null;
 let cueData=[]; let cueEditId=null; let cueSelectedId=null;
 const safeStore={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},remove(k){try{localStorage.removeItem(k)}catch(e){}}};
@@ -634,11 +626,11 @@ const DEFAULT_SYNC_URL="https://script.google.com/macros/s/AKfycbzMS0ooO2qB2m8x_
 const SYNC_URL_KEY="ihome-sync-url-v1";
 let syncUrl=""; // 本機測試版：不連 Google
 function setSyncStatus(text,cls=""){const el=$("#syncStatus");if(!el)return;el.textContent=text;el.className="sync-status"+(cls?" "+cls:"")}
-function load(){try{data=JSON.parse(safeStore.get(KEY)||"null")||sample()}catch(e){data=sample()} data=data.map(normalizeCase);try{cueData=JSON.parse(safeStore.get(CUE_KEY)||"null")||[]}catch(e){cueData=[]}save();saveCue();setSyncStatus("本機測試模式")}
+function load(){try{data=JSON.parse(safeStore.get(KEY)||"null")||sample()}catch(e){data=sample()} data=data.map(normalizeCase);try{cueData=JSON.parse(safeStore.get(CUE_KEY)||"null")||[]}catch(e){cueData=[]}save();saveCue();setSyncStatus("本機資料模式")}
 function save(){safeStore.set(KEY,JSON.stringify(data));}
 function saveCue(){safeStore.set(CUE_KEY,JSON.stringify(cueData));}
 function syncLoad(){
-  if(!syncUrl){setSyncStatus("本機模式");return}
+  if(!syncUrl){setSyncStatus("本機資料模式");return}
   setSyncStatus("同步中…","syncing");
   const cb="__ihomeSync_"+Date.now()+"_"+Math.random().toString(36).slice(2);
   const sc=document.createElement("script");
